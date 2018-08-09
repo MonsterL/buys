@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>axios插件示例</title>
+
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/axios/dist/axios.js"></script>
+</head>
+<body>
+  <div id="app" class="container">
+    <h2>axios示例讲解</h2>
+    <a href="javascript:;" @click="get" class="btn btn-primary">get请求</a>
+    <a href="javascript:;" @click="post" class="btn btn-primary">post请求</a>
+    <a href="javascript:;" @click="http" class="btn btn-primary">HTTP请求</a>
+    <div>
+      <span>{{msg}}</span>
+    </div>
+  </div>
+</body>
+
+<script>
+  new Vue({
+    el:"#app",
+    data:{
+      msg:''
+    },
+    mounted () {
+      axios.interceptors.request.use(function (config) {
+        //所有请求执行前
+        console.dir("request init.");
+        return config
+      });
+
+      axios.interceptors.response.use(function (response) {
+        //所有请求返回前执行
+        console.dir("response init.");
+        return response
+      })
+    },
+    methods:{
+      get: function() {
+        axios.get('../package.json', {
+          params: {
+            id: '001'
+          },
+          headers: {
+            token: '999'
+          }
+        }).then( res => {
+          this.msg = res.data;
+        }).catch(function (error) {
+          console.log("error:" + error);
+        });
+      },
+      post: function() {
+        axios.post('../package.json', {
+          postId: '111'
+        }, {
+          headers: {
+            token: '898'
+          }
+        }).then( res => {
+          this.msg = res.data;
+        }).catch(function (error) {
+          console.log("error:" + error);
+        });
+      },
+      http () {
+        axios({
+          url: '../package.json',
+          method: 'get',
+          params: {
+            getId: '1111' //get请求参数
+          },
+          data: {
+            httpId: '123' //post请求参数
+          },
+          headers: {
+            token: '888'
+          }
+        }).then( res => {
+          this.msg = res.data;
+        }).catch(function (error) {
+          console.log("error:" + error);
+        });
+      }
+    },
+  });
+</script>
+</html>

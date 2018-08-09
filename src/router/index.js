@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
+import GoodsList from './../view/GoodsList';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/goods/:goodsId/user/:userId',
+      name: 'GoodsList',
+      component: GoodsList
     }
   ]
 });
